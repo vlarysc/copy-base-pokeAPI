@@ -1,5 +1,6 @@
 import axios from "axios";
 import notify from "../utils/notify";
+
 export default function pokedex() {
   const baseUrl = "https://pokeapi.co/api/v2/pokemon";
   const getAllPokemons = async () => {

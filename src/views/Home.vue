@@ -1,13 +1,22 @@
 <template>
-  <div>HomeViewer</div>
+  <div>{{ pokemons }}</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { useStore } from "../stores/pokedex";
+import { computed, defineComponent, onBeforeMount } from "vue";
+
 export default defineComponent({
   name: "HomeViewer",
   setup() {
-    return {};
+    const store = useStore();
+    onBeforeMount(async () => {
+      await store.getPokemons();
+    });
+    const pokemons = computed(() => store.pokemons);
+    return {
+      pokemons,
+    };
   },
 });
 </script>

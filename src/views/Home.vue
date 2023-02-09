@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <RouterView />
-  </div>
+  <div>HomeViewer</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "App",
+  // eslint-disable-next-line prettier/prettier
+  name: "HomeViewer",
   setup() {
     return {};
   },

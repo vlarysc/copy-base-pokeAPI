@@ -5,7 +5,7 @@
         <img :src="pokemon.image" :alt="`Pokemon ${pokemon.type}`" />
       </div>
       <div class="pokemon-name">
-        {{ pokemonName[0].toUpperCase() + pokemonName.substr(1) }}
+        {{ name }}
       </div>
     </div>
     <div class="container" v-show="!isFront">
@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import pokedex from "../services/pokeAPI";
 import type { Ref } from "vue";
 
@@ -76,6 +76,9 @@ export default {
     const { _getPokemonByUrl } = pokedex();
     const pokemon: Ref<any> = ref({});
     const isFront = ref(true);
+    const name = computed(
+      () => props.pokemonName[0].toUpperCase() + props.pokemonName.substr(1)
+    );
 
     onMounted(async (): Promise<any> => {
       pokemon.value = await _getPokemonByUrl(props.url as string);
@@ -89,6 +92,7 @@ export default {
       invertCard,
       isFront,
       pokemon,
+      name,
     };
   },
 };

@@ -3,7 +3,7 @@ import notify from "../utils/notify";
 
 export default function pokedex() {
   const baseUrl = "https://pokeapi.co/api/v2/pokemon";
-  const getAllPokemons = async () => {
+  const _getAllPokemons = async () => {
     return axios({
       method: "GET",
       url: `${baseUrl}?limit=151&offset=0`,
@@ -23,7 +23,7 @@ export default function pokedex() {
         console.log(err);
       });
   };
-  const getPokemonById = async (id: string) => {
+  const _getPokemonById = async (id: string) => {
     return axios({
       method: "GET",
       url: `${baseUrl}/${id}/`,
@@ -45,7 +45,7 @@ export default function pokedex() {
   };
 
   return {
-    getAllPokemons,
-    getPokemonById,
+    _getAllPokemons,
+    _getPokemonById,
   };
 }

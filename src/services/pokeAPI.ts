@@ -23,16 +23,25 @@ export default function pokedex() {
         console.log(err);
       });
   };
-  const _getPokemonById = async (id: string) => {
+  const _getPokemonByUrl = async (url: string) => {
     return axios({
       method: "GET",
-      url: `${baseUrl}/${id}/`,
+      url: `${url}`,
       headers: {
         "content-type": "application/json",
       },
     })
       .then((res) => {
-        return res;
+        const pokemon = {
+          hp: res.data.stats[0].base_stat,
+          attack: res.data.stats[1].base_stat,
+          defense: res.data.stats[2].base_stat,
+          specialAttack: res.data.stats[3].base_stat,
+          specialDefense: res.data.stats[4].base_stat,
+          type: res.data.types[0].type.name,
+          image: res.data.sprites.other["official-artwork"].front_default,
+        };
+        return pokemon;
       })
       .catch((err) => {
         notify({
@@ -46,6 +55,6 @@ export default function pokedex() {
 
   return {
     _getAllPokemons,
-    _getPokemonById,
+    _getPokemonByUrl,
   };
 }

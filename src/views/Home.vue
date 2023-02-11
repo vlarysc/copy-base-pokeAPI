@@ -1,8 +1,16 @@
 <template>
-  <div>
-    <div v-for="(pokemon, index) in pokemons" :key="index">
-      <!--{{ pokemon.name }}-->
-      <PokeCard :name="pokemon.name" :url="pokemon.url" :id="index + 1" />
+  <div id="Home">
+    <div class="search">
+      <Search />
+    </div>
+    <div class="container">
+      <div v-for="(pokemon, index) in pokemons" :key="index">
+        <PokeCard
+          :pokemonName="pokemon.name"
+          :url="pokemon.url"
+          :id="index + 1"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -11,19 +19,24 @@
 import { useStore } from "../stores/pokedex";
 import { computed, defineComponent, onBeforeMount } from "vue";
 import PokeCard from "../components/PokeCard.vue";
+import Search from "../components/Search.vue";
 
 export default defineComponent({
   name: "HomeViewer",
   components: {
     PokeCard,
+    Search,
   },
   setup() {
     const store = useStore();
     onBeforeMount(async () => {
       await store.getPokemons();
-      console.log(pokemons.value);
     });
-    const pokemons = computed(() => store.pokemons.data.results);
+
+    const pokemons = computed(() =>
+      store.pokemon.length === 0 ? store.pokemons.data.results : store.pokemon
+    );
+
     return {
       pokemons,
     };
@@ -43,5 +56,17 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+.search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+@media (max-width: 520px) {
+  .search {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
 }
 </style>

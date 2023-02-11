@@ -5,8 +5,7 @@
         <img :src="pokemon.image" :alt="`Pokemon ${pokemon.type}`" />
       </div>
       <div class="pokemon-name">
-        {{ url }}
-        {{ name[0].toUpperCase() + name.substr(1) }}
+        {{ pokemonName[0].toUpperCase() + pokemonName.substr(1) }}
       </div>
     </div>
     <div class="container" v-show="!isFront">
@@ -62,34 +61,25 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "../stores/pokedex";
-import { ref, onBeforeMount } from "vue";
-/*import type { Ref } from "vue";*/
+import { ref, onMounted } from "vue";
+import pokedex from "../services/pokeAPI";
+import type { Ref } from "vue";
 
 export default {
   name: "HomeViewer",
   props: {
     id: Number,
-    name: String,
+    pokemonName: String,
     url: String,
   },
   setup(props) {
-    const store = useStore();
-    onBeforeMount(async () => {
-      return await store.getPokemonById(props.url as string);
-    });
+    const { _getPokemonByUrl } = pokedex();
+    const pokemon: Ref<any> = ref({});
     const isFront = ref(true);
-    const pokemon = ref({
-      type: "",
-      image: "",
-      hp: "",
-      attack: "",
-      defense: "",
-      specialAttack: "",
-      specialDefense: "",
-    });
 
-    /*const pokemon = computed(() => store.pokemon);*/
+    onMounted(async (): Promise<any> => {
+      pokemon.value = await _getPokemonByUrl(props.url as string);
+    });
 
     function invertCard() {
       isFront.value = !isFront.value;

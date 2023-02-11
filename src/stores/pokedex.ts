@@ -2,9 +2,13 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import pokedex from "../services/pokeAPI";
 import type { Ref } from "vue";
+export interface IPokemon {
+  name: string;
+  url: string;
+}
 
 export const useStore = defineStore("Pokedex", () => {
-  const { _getAllPokemons, _getPokemonById } = pokedex();
+  const { _getAllPokemons } = pokedex();
   const pokemons: Ref<any> = ref([]);
   const pokemon: Ref<any> = ref([]);
 
@@ -12,10 +16,13 @@ export const useStore = defineStore("Pokedex", () => {
     const Allpokemons = await _getAllPokemons();
     pokemons.value = Allpokemons;
   }
-  async function getPokemonById(id: string): Promise<void> {
-    const Allpokemons = await _getPokemonById(id);
-    pokemons.value = Allpokemons;
+  async function filterPokemon(data: string): Promise<any> {
+    const poke = pokemons.value.data.results;
+    pokemon.value = poke.filter((pokemon: IPokemon) =>
+      pokemon.name.toUpperCase().includes(data.toUpperCase())
+    );
+    return pokemon.value;
   }
 
-  return { getPokemons, getPokemonById, pokemons, pokemon };
+  return { getPokemons, pokemons, pokemon, filterPokemon };
 });

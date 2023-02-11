@@ -72,7 +72,7 @@ export default {
     pokemonName: String,
     url: String,
   },
-  setup(props) {
+  setup(props: any) {
     const { _getPokemonByUrl } = pokedex();
     const pokemon: Ref<any> = ref({});
     const isFront = ref(true);

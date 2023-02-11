@@ -14,14 +14,13 @@
 
 <script lang="ts">
 import { useStore } from "../stores/pokedex";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 export default {
   setup() {
     const store = useStore();
     const pokemon = ref("");
+    watchEffect(() => filtrator());
     function filtrator() {
-      console.log("console", pokemon.value);
-      console.log("console", store.pokemon);
       store.filterPokemon(pokemon.value);
     }
     return { filtrator, pokemon };

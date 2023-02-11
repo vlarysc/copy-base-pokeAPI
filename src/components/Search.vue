@@ -16,6 +16,7 @@
 import { useStore } from "../stores/pokedex";
 import { ref, watchEffect } from "vue";
 export default {
+  name: "SearchApp",
   setup() {
     const store = useStore();
     const pokemon = ref("");
